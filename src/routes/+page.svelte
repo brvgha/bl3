@@ -1,23 +1,39 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { currentSession, subTitle } from '$lib/stores';
+	import { subTitle } from '$lib/stores';
 	import HomeScreen from '$lib/ui/HomeScreen.svelte';
 	import Card from '$lib/ui/Card.svelte';
 	import VenueDetails from '$lib/ui/VenueDetails.svelte';
-	//import { getSession } from '$lib/api/session';
+	import { apiService } from '$lib/services/api-service';
+	import OfflineScreen from './offline/OfflineScreen.svelte';
 
-	let session;
-	subTitle.set('Home');
+	let check: boolean | null = null;
 
-	/*onMount(async () => {
-    session = await getSession();
-    currentSession.set(session);
-  }); */
+	onMount(async () => {
+		check = await apiService.getStatus();
+		console.log("API status check:", check);
+	});
+
+	// reactively update subtitle when check changes
+	$: if (check === true) {
+		subTitle.set('Home');
+	} else if (check === false) {
+		subTitle.set('Offline');
+	}
 </script>
 
-<Card title="Home">
-	<HomeScreen />
-</Card>
-<Card title="Details">
-	<VenueDetails />
-</Card>
+{#if check === null}
+	<!-- maybe show a loading state -->
+	<Card title="Loading...">Checking status...</Card>
+{:else if check}
+	<Card title="Home">
+		<HomeScreen />
+	</Card>
+	<Card title="Details">
+		<VenueDetails />
+	</Card>
+{:else}
+	<Card title="Offline">
+		<OfflineScreen />
+	</Card>
+{/if}

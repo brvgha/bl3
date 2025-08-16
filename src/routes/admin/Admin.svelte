@@ -1,8 +1,6 @@
 <script lang="ts">
     //import {sendEmail} from '$lib/services/utilities';
-    let { adminName = $bindable(""), password = $bindable("") } = $props();
-    import { goto } from "$app/navigation";
-
+    let { adminName = $bindable(""), password = $bindable(""), data } = $props();
 </script>
 
 <!-- svelte-ignore event_directive_deprecated -->
@@ -26,4 +24,9 @@
 			<button class="button is-success is-fullwidth">Login</button>
 		</div>
 	</div>
+	{#if data && data.message}
+		<div class="notification is-warning">
+			<p>{data.message}</p>
+		</div>
+	{/if}
 </form>
