@@ -3,7 +3,7 @@ export interface Session {
     token: string;
 }
 
-export interface Booking {
+export type Booking = {
     _id?: string;
     name: string;
     email: string;

@@ -1,4 +1,5 @@
 import { fakeBookings } from "$lib/services/utilities";
+import type { Booking } from "$lib/types/bl3-types";
 import { redirect } from "@sveltejs/kit";
 import axios from "axios";
 
@@ -22,7 +23,7 @@ export const apiService = {
             return { error: "Username and password are required" };
         }
         let response = await axios.post(`${this.baseUrl}/login`, { username, password });
-        return response.data.status ? true : false;
+        return response.data.login === true ? true : false;
     },
 
     async logout(): Promise<void> {
@@ -34,7 +35,7 @@ export const apiService = {
         // Simulate an API call to get bookings
         console.log("Fetching bookings");
         try {
-            let response = await axios.get(`${this.baseUrl}/get-unauth_bookings`);
+            let response = await axios.get(`${this.baseUrl}/get-unauth-bookings`);
             console.log("Response status:", response.status);
             if (response.status === 200) {
                 return response.data;
@@ -52,7 +53,7 @@ export const apiService = {
         // Simulate an API call to get bookings
         console.log("Fetching bookings");
         try {
-            let response = await axios.get(`${this.baseUrl}/get-auth_bookings`);
+            let response = await axios.get(`${this.baseUrl}/get-auth-bookings`);
             console.log("Response status:", response.status);
             if (response.status === 200) {
                 return response.data;
@@ -69,21 +70,32 @@ export const apiService = {
     async acceptBooking(bookingId: string): Promise<{ success: boolean; message?: string }> {
         // Simulate an API call to accept a booking
         console.log(`Accepting booking with ID: ${bookingId}`);
-        let response = await axios.post(`${this.baseUrl}/accept`, { bookingId });
+        let response = await axios.post(`${this.baseUrl}/accept-booking`, { bookingId });
+        console.log("Response status:", response.status);
         if (response.status !== 200) {
             console.error("Failed to accept booking:", response.data);
             return { success: false, message: response.data.message || "Failed to accept booking" };
         }
-        return { success: true };
+        return { success: true, message: `Booking ${bookingId} accepted successfully` };
     },
     async rejectBooking(bookingId: string): Promise<{ success: boolean; message?: string }> {
         // Simulate an API call to reject a booking
         console.log(`Rejecting booking with ID: ${bookingId}`);
-        let response = await axios.post(`${this.baseUrl}/reject`, { bookingId });
+        let response = await axios.post(`${this.baseUrl}/reject-booking`, { bookingId });
         if (response.status !== 200) {
             console.error("Failed to reject booking:", response.data);
             return { success: false, message: response.data.message || "Failed to reject booking" };
         }
-        return { success: true };
+        return { success: true, message: `Booking ${bookingId} rejected successfully` };
+    },
+    async createBooking(bookingData: Booking): Promise<{ success: boolean; message?: string }> {
+        console.log("Creating booking with data:", bookingData);
+        let response = await axios.post(`${this.baseUrl}/create-booking`, bookingData);
+        console.log("Response status:", response);
+        if (response.status !== 200) {
+            console.error("Failed to create booking:", response.data);
+            return { success: false, message: response.data.message || "Failed to create booking" };
+        }
+        return { success: response.data.confirm, message: response.data.message || "Booking created successfully" };
     }
 };

@@ -4,8 +4,9 @@
     import BookingScreen from "./BookingScreen.svelte";
 
     subTitle.set('Booking');
+    export let data;
 </script>
 
 <Card title="Booking">
-    <BookingScreen />
+    <BookingScreen {data}/>
 </Card>
