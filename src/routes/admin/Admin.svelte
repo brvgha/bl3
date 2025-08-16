@@ -1,21 +1,39 @@
 <script lang="ts">
-    //import {sendEmail} from '$lib/services/utilities';
-    let { adminName = $bindable(""), password = $bindable(""), data } = $props();
+	//import {sendEmail} from '$lib/services/utilities';
+	export let data;
+	let adminName = '';
+	let password = '';
 </script>
 
-<!-- svelte-ignore event_directive_deprecated -->
+<!-- svelte-ignore component_name_lowercase -->
 <form method="post" action="?/admin">
 	<div class="field">
-		<label class="label">Username</label>
+		<label class="label" for="username">Username</label>
 		<div class="control">
-			<input name="username" class="input" type="text" bind:value={adminName} placeholder="Username" required />
+			<input
+				id="username"
+				name="username"
+				class="input"
+				type="text"
+				bind:value={adminName}
+				placeholder="Username"
+				required
+			/>
 		</div>
 	</div>
 
 	<div class="field">
-		<label class="label">Password</label>
+		<label class="label" for="password">Password</label>
 		<div class="control">
-			<input name="password" class="input" type="password" bind:value={password} placeholder="Admin Password" required />
+			<input
+				id="password"
+				name="password"
+				class="input"
+				type="password"
+				bind:value={password}
+				placeholder="Admin Password"
+				required
+			/>
 		</div>
 	</div>
 
@@ -24,9 +42,11 @@
 			<button class="button is-success is-fullwidth">Login</button>
 		</div>
 	</div>
-	{#if data && data.message}
+</form>
+<div class="error-message">
+	{#if data?.message}
 		<div class="notification is-warning">
-			<p>{data.message}</p>
+			<p>{data?.message}</p>
 		</div>
 	{/if}
-</form>
+</div>

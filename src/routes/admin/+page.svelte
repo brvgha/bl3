@@ -8,5 +8,5 @@
 
 
 <Card title="Admin">
-    <Admin {data} />
+    <Admin {data}/>
 </Card>
