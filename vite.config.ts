@@ -7,5 +7,6 @@ export default defineConfig({
 		port: 5173,
 		host: true,
 		strictPort: true,
+		allowedHosts: ['bl3-98d2.onrender.com', 'localhost', '0.0.0.0'],
 	}
 });
