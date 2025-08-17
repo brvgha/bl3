@@ -4,9 +4,9 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sveltekit()],
 	server: {
-		port: 5173,
+		port: 3000,
 		host: true,
 		strictPort: true,
-		allowedHosts: ['bl3-98d2.onrender.com', 'localhost', '0.0.0.0'],
+		allowedHosts: [	'bl3-98d2.onrender.com', 'localhost', 'all']
 	}
 });
