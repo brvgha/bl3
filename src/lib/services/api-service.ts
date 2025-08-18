@@ -1,4 +1,5 @@
 import { fakeBookings } from "$lib/services/utilities";
+import { isLoggedIn } from "$lib/stores";
 import type { Booking } from "$lib/types/bl3-types";
 import { redirect } from "@sveltejs/kit";
 import axios from "axios";
@@ -23,6 +24,7 @@ export const apiService = {
             return { error: "Username and password are required" };
         }
         let response = await axios.post(`${this.baseUrl}/login`, { username, password });
+        isLoggedIn.set(response.data.login === true);
         return response.data.login === true ? true : false;
     },
 

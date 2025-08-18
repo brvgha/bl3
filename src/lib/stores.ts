@@ -10,3 +10,4 @@ export const iconMap = writable<string>("fa-solid fa-map-location-dot");
 export const directions = writable<string>("https://www.google.com/maps/dir/?api=1&destination=8+Courtenay+Place,+Te+Aro,+Wellington+6011");
 export const bookingEmail = writable<string>("cody@barbl3.co.nz");
 export const iconHome = writable<string>("fa-solid fa-house");
+export const isLoggedIn = writable<boolean>(false);
