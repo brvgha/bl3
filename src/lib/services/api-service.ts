@@ -4,7 +4,7 @@ import { redirect } from "@sveltejs/kit";
 import axios from "axios";
 
 export const apiService = {
-    baseUrl: 'http://bl3-api.onrender.com:4000',
+    baseUrl: 'https://bl3-api.onrender.com',
     async getStatus(): Promise<boolean> {
         let response = await axios.get(`${this.baseUrl}/status`);
         //console.log("Response status:", response.status);
